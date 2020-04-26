@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { choice } from './helpers'
+import { choice } from './../utils/helpers'
 import Coin from './Coin'
 
 class Flipper extends Component {

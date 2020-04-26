@@ -1,11 +1,11 @@
 import React from 'react'
 import './App.css'
-import Flipper from './coin-flipper/Flipper'
+import ColorBoxes from './color-boxes/ColorBoxes'
 
 function App() {
     return (
         <div className="App">
-            <Flipper />
+            <ColorBoxes />
         </div>
     )
 }
