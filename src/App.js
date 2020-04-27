@@ -1,11 +1,11 @@
 import React from 'react'
+import Board from './lights-out/Board'
 import './App.css'
-import ColorBoxes from './color-boxes/ColorBoxes'
 
 function App() {
     return (
         <div className="App">
-            <ColorBoxes />
+            <Board />
         </div>
     )
 }
