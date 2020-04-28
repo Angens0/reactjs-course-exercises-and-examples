@@ -29,13 +29,27 @@ import './Board.css'
  **/
 
 class Board extends Component {
-    // TODO: set initial state
+    static defaultProps = {
+        nrows: 5,
+        ncols: 5,
+        chanceLightStartsOn: 0.25
+    }
 
     /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
     createBoard = () => {
-        // TODO: create array-of-arrays of true/false values
-        const board = []
+        const { nrows, ncols, chanceLightStartsOn } = this.props
+        const board = Array.from(
+            { length: nrows },
+            () => Array.from({ length: ncols }, () => {
+                return Math.random() < chanceLightStartsOn
+            })
+        )
         return board
+    }
+
+    state = {
+        hasWon: false,
+        board: this.createBoard()
     }
 
     /** handle changing a cell: update board & determine if winner */
@@ -59,7 +73,7 @@ class Board extends Component {
         // win when every cell is turned off
         // TODO: determine is the game has been won
 
-        this.setState({ board, hasWon })
+        // this.setState({ board, hasWon })
     }
 
     /** Render game board or winning message. */
@@ -67,12 +81,37 @@ class Board extends Component {
     render() {
 
         // if the game is won, just show a winning msg & render nothing else
+        if (this.state.hasWon) {
+            return <h1>Congratulations!</h1>
+        }
 
         // TODO
 
         // make table board
 
         // TODO
+        const { board } = this.state
+
+        return (
+            <table className='Board'>
+                <tbody>
+                    {board.map((columns, y) => {
+                        return (
+                            <tr key={y}>
+                                {columns.map((value, x) => {
+                                    return <Cell
+                                        key={`${y}-${x}`}
+                                        coords={`${y}-${x}`}
+                                        isLit={value}
+                                        flipCellsAroundMe={this.flipCellsAround}
+                                    />
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        )
     }
 }
 

@@ -17,7 +17,8 @@ import './Cell.css'
 class Cell extends Component {
     handleClick = event => {
         // call up to the board to flip cells around this cell
-        this.props.flipCellsAroundMe()
+        const { coords, flipCellsAroundMe } = this.props
+        flipCellsAroundMe(coords)
     }
 
     render() {
