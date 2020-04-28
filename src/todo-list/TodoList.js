@@ -13,6 +13,20 @@ export class TodoList extends Component {
         })
     }
 
+    updateTodo = (id, updatedTask) => {
+        this.setState(state => {
+            return {
+                todos: state.todos.map(todo => {
+                    if (todo.id === id) {
+                        todo.task = updatedTask
+                    }
+
+                    return todo
+                })
+            }
+        })
+    }
+
     removeTodo = id => {
         this.setState(state => {
             return { todos: state.todos.filter(todo => todo.id !== id) }
@@ -24,6 +38,7 @@ export class TodoList extends Component {
             key={todo.id}
             id={todo.id}
             task={todo.task}
+            updateTodo={this.updateTodo}
             removeTodo={this.removeTodo}
         />)
     }
