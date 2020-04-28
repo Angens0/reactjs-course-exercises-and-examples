@@ -79,35 +79,37 @@ class Board extends Component {
         })
     }
 
-    /** Render game board or winning message. */
-
-    render() {
-        if (this.state.hasWon) {
-            return <h1>Congratulations!</h1>
-        }
-
-        const { board } = this.state
-
+    renderBoard = () => this.state.board.map((columns, y) => {
         return (
-            <table className='Board'>
-                <tbody>
-                    {board.map((columns, y) => {
-                        return (
-                            <tr key={y}>
-                                {columns.map((value, x) => {
-                                    return <Cell
-                                        key={`${y}-${x}`}
-                                        coords={`${y}-${x}`}
-                                        isLit={value}
-                                        flipCellsAroundMe={this.flipCellsAround}
-                                    />
-                                })}
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <tr key={y}>
+                {columns.map((value, x) => {
+                    return <Cell
+                        key={`${y}-${x}`}
+                        coords={`${y}-${x}`}
+                        isLit={value}
+                        flipCellsAroundMe={this.flipCellsAround}
+                    />
+                })}
+            </tr>
         )
+    })
+
+    /** Render game board or winning message. */
+    render() {
+        // https://codepen.io/Trinca/pen/NAvpWa
+        const { hasWon } = this.state
+
+        return (<div>
+            <div className={`Board-title${hasWon ? ' winner' : ''}`}>
+                <span className="neon">{hasWon ? 'You' : 'Lights'}</span>
+                <span className="flux">{hasWon ? 'Win!' : 'Out'}</span>
+            </div>
+            {!hasWon && <table className='Board'>
+                <tbody>
+                    {this.renderBoard()}
+                </tbody>
+            </table>}
+        </div>)
     }
 }
 
