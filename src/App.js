@@ -1,11 +1,11 @@
 import React from 'react'
-import BoxList from './color-box-maker/BoxList'
+import TodoList from './todo-list/TodoList'
 import './App.css'
 
 function App() {
     return (
-        <div className="App">
-            <BoxList />
+        <div>
+            <TodoList />
         </div>
     )
 }
