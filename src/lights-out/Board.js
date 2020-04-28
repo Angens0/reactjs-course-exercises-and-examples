@@ -56,17 +56,26 @@ class Board extends Component {
 
     flipCellsAround = coord => {
         const { ncols, nrows } = this.props
-        const board = this.state.board
         const [y, x] = coord.split("-").map(Number)
 
-
-        const flipCell = (y, x) => {
+        const flipCell = (board, y, x) => {
             // if this coord is actually on board, flip it
 
             if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
                 board[y][x] = !board[y][x]
             }
         }
+
+        this.setState(state => {
+            // deep clone
+            const board = JSON.parse(JSON.stringify(state.board))
+            flipCell(board, y, x)
+            flipCell(board, y - 1, x)
+            flipCell(board, y + 1, x)
+            flipCell(board, y, x - 1)
+            flipCell(board, y, x + 1)
+            return { board, hasWon: false }
+        })
 
         // TODO: flip this cell and the cells around it
 
