@@ -11,6 +11,12 @@ export class TodoList extends Component {
         ]
     }
 
+    createTodo = task => {
+        this.setState(state => {
+            return { todos: [...state.todos, { task, id: uuidv4() }] }
+        })
+    }
+
     renderTodos = () => {
         return this.state.todos.map(todo => <Todo
             key={todo.id}
@@ -23,7 +29,7 @@ export class TodoList extends Component {
         return (
             <div>
                 <h1>Todo List!</h1>
-                <NewTodoForm />
+                <NewTodoForm createTodo={this.createTodo} />
                 <ul>
                     {this.renderTodos()}
                 </ul>
