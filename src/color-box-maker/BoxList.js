@@ -4,21 +4,25 @@ import Box from './Box'
 import NewBoxForm from './NewBoxForm'
 
 class BoxList extends Component {
-    state = {
-        boxes: [
-            { width: '10px', height: '20px', backgroundColor: 'magenta' }
-        ]
-    }
+    state = { boxes: [] }
 
     createBox = ({ width, height, color }) => {
         this.setState(state => ({
             boxes: [...state.boxes, {
-                width: `${width}px`,
-                height: `${height}px`,
-                backgroundColor: color
+                id: uuidv4(),
+                style: {
+                    width: `${width}px`,
+                    height: `${height}px`,
+                    backgroundColor: color
+                }
             }]
-        })
-        )
+        }))
+    }
+
+    removeBox = id => {
+        this.setState(state => ({
+            boxes: state.boxes.filter(box => box.id !== id)
+        }))
     }
 
     render() {
@@ -26,7 +30,18 @@ class BoxList extends Component {
             <div>
                 <h1>Box Maker</h1>
                 <NewBoxForm createBox={this.createBox} />
-                {this.state.boxes.map(box => <Box key={uuidv4()} style={box} />)}
+                {this.state.boxes.map(box => {
+                    return (
+                        <div>
+                            <Box key={box.id} style={box.style} />
+                            <button
+                                onClick={this.removeBox.bind(this, box.id)}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    )
+                })}
             </div>
         )
     }
