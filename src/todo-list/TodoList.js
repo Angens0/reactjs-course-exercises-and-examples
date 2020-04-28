@@ -18,9 +18,22 @@ export class TodoList extends Component {
             return {
                 todos: state.todos.map(todo => {
                     if (todo.id === id) {
-                        todo.task = updatedTask
+                        return { ...todo, task: updatedTask }
                     }
 
+                    return todo
+                })
+            }
+        })
+    }
+
+    toggleTodoCompletion = id => {
+        this.setState(state => {
+            return {
+                todos: state.todos.map(todo => {
+                    if (todo.id === id) {
+                        return { ...todo, isCompleted: !todo.isCompleted }
+                    }
                     return todo
                 })
             }
@@ -38,7 +51,9 @@ export class TodoList extends Component {
             key={todo.id}
             id={todo.id}
             task={todo.task}
+            isCompleted={todo.isCompleted}
             updateTodo={this.updateTodo}
+            toggleTodoCompletion={this.toggleTodoCompletion}
             removeTodo={this.removeTodo}
         />)
     }

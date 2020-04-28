@@ -14,7 +14,8 @@ class NewTodoForm extends Component {
         event.preventDefault()
         this.props.createTodo({
             task: this.state.task,
-            id: uuidv4()
+            id: uuidv4(),
+            isCompleted: false
         })
         this.setState({ task: '' })
     }

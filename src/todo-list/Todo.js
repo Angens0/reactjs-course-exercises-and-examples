@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Todo.css'
 
 class Todo extends Component {
     state = {
@@ -24,6 +25,11 @@ class Todo extends Component {
         this.toggleForm()
     }
 
+    handleToggle = event => {
+        event.preventDefault()
+        this.props.toggleTodoCompletion(this.props.id)
+    }
+
     renderForm = () => {
         return (
             <form onSubmit={this.handleUpdate}>
@@ -39,11 +45,18 @@ class Todo extends Component {
     }
 
     renderTodo = () => {
+        const { isCompleted, task } = this.props
+
         return (
             <div>
                 <button onClick={this.toggleForm}>Edit</button>
                 <button onClick={this.handleRemove}>X</button>
-                <li>{this.props.task}</li>
+                <li
+                    onClick={this.handleToggle}
+                    className={isCompleted ? 'completed' : ''}
+                >
+                    {task}
+                </li>
             </div>
         )
     }
