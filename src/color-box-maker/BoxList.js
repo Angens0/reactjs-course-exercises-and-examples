@@ -31,16 +31,12 @@ class BoxList extends Component {
                 <h1>Box Maker</h1>
                 <NewBoxForm createBox={this.createBox} />
                 {this.state.boxes.map(box => {
-                    return (
-                        <div>
-                            <Box key={box.id} style={box.style} />
-                            <button
-                                onClick={this.removeBox.bind(this, box.id)}
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    )
+                    return <Box
+                        key={box.id}
+                        id={box.id}
+                        style={box.style}
+                        removeBox={this.removeBox}
+                    />
                 })}
             </div>
         )
