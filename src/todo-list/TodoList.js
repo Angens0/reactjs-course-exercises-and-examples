@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import NewTodoForm from './NewTodoForm'
 import Todo from './Todo'
 
 export class TodoList extends Component {
     state = {
-        todos: [
-            { task: 'Walk The Fish', id: uuidv4() },
-            { task: 'Groom Chickens', id: uuidv4() }
-        ]
+        todos: []
     }
 
-    createTodo = task => {
+    createTodo = newTodo => {
         this.setState(state => {
-            return { todos: [...state.todos, { task, id: uuidv4() }] }
+            return { todos: [...state.todos, newTodo] }
+        })
+    }
+
+    removeTodo = id => {
+        this.setState(state => {
+            return { todos: state.todos.filter(todo => todo.id !== id) }
         })
     }
 
@@ -22,6 +24,7 @@ export class TodoList extends Component {
             key={todo.id}
             id={todo.id}
             task={todo.task}
+            removeTodo={this.removeTodo}
         />)
     }
 
