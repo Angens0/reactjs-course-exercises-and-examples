@@ -19,13 +19,14 @@ class Die extends Component {
 
 
     render() {
-        const { locked, val, numberWords, disabled } = this.props
+        const { locked, val, numberWords, disabled, rolling } = this.props
         const classNames = [
             'Die',
             'fas',
             `fa-dice-${numberWords[val - 1]}`,
             'fa-5x',
-            locked ? 'Die-locked' : ''
+            locked ? 'Die-locked' : '',
+            rolling && !locked ? 'Die-rolling' : ''
         ]
         return (
             <i

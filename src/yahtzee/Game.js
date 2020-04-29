@@ -10,9 +10,10 @@ class Game extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dice: Array.from({ length: NUM_DICE }),
+            dice: Array.from({ length: NUM_DICE }, (v, k) => k + 1),
             locked: Array(NUM_DICE).fill(false),
             rollsLeft: NUM_ROLLS,
+            rolling: false,
             scores: {
                 ones: undefined,
                 twos: undefined,
@@ -32,6 +33,17 @@ class Game extends Component {
         this.roll = this.roll.bind(this)
         this.doScore = this.doScore.bind(this)
         this.toggleLocked = this.toggleLocked.bind(this)
+        this.animateRoll = this.animateRoll.bind(this)
+    }
+
+    componentDidMount() {
+        this.animateRoll()
+    }
+
+    animateRoll() {
+        this.setState({ rolling: true }, () => {
+            setTimeout(this.roll, 1000)
+        })
     }
 
     roll(evt) {
@@ -41,12 +53,14 @@ class Game extends Component {
                 st.locked[i] ? d : Math.ceil(Math.random() * 6)
             ),
             locked: st.rollsLeft > 1 ? st.locked : Array(NUM_DICE).fill(true),
-            rollsLeft: st.rollsLeft - 1
+            rollsLeft: st.rollsLeft - 1,
+            rolling: false
         }))
     }
 
     toggleLocked(idx) {
-        if (!this.state.rollsLeft) {
+        const { rollsLeft, rolling } = this.state
+        if (!rollsLeft || rolling) {
             return
         }
 
@@ -71,7 +85,7 @@ class Game extends Component {
     }
 
     render() {
-        const { locked, rollsLeft, dice, scores } = this.state
+        const { locked, rollsLeft, dice, scores, rolling } = this.state
 
         return (
             <div className='Game'>
@@ -84,12 +98,13 @@ class Game extends Component {
                             locked={locked}
                             handleClick={this.toggleLocked}
                             disabled={rollsLeft === 0}
+                            rolling={rolling}
                         />
                         <div className='Game-button-wrapper'>
                             <button
                                 className='Game-reroll'
                                 disabled={locked.every(x => x) || !rollsLeft}
-                                onClick={this.roll}
+                                onClick={this.animateRoll}
                             >
                                 {rollsLeft} Rerolls Left
                             </button>
