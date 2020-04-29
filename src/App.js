@@ -1,12 +1,12 @@
 import React, { Component } from "react"
-import Game from "./yahtzee/Game"
+import Deck from "./deck-of-cards/Deck"
 import "./App.css"
 
 class App extends Component {
     render() {
         return (
             <div className='App'>
-                <Game />
+                <Deck />
             </div>
         )
     }
