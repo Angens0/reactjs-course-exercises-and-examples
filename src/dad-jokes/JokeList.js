@@ -9,7 +9,8 @@ class JokeList extends Component {
     }
 
     state = {
-        jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]')
+        jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]'),
+        loading: false
     }
 
     componentDidMount = async () => {
@@ -35,7 +36,8 @@ class JokeList extends Component {
         }
 
         this.setState(state => ({
-            jokes: [...state.jokes, ...jokes]
+            jokes: [...state.jokes, ...jokes],
+            loading: false
         }), () => window.localStorage.setItem(
             'jokes',
             JSON.stringify(this.state.jokes)
@@ -60,10 +62,23 @@ class JokeList extends Component {
     }
 
     handleClick = event => {
-        this.getJokes()
+        this.setState({ loading: true }, this.getJokes)
+    }
+
+    renderSpinner = () => {
+        return (
+            <div className='JokeList-spinner'>
+                <i className='far fa-8x fa-laugh fa-spin' />
+                <h1 className='JokeList-title'>Loading...</h1>
+            </div>
+        )
     }
 
     render = () => {
+        if (this.state.loading) {
+            return this.renderSpinner()
+        }
+
         return (
             <div className='JokeList'>
                 <div className='JokeList-sidebar'>
