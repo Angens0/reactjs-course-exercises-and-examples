@@ -105,7 +105,7 @@ class JokeList extends Component {
                         className='JokeList-getmore'
                         onClick={this.handleClick}
                     >
-                        New Jokes
+                        Fetch Jokes
                     </button>
                 </div>
 
