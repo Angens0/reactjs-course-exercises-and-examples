@@ -9,10 +9,14 @@ class JokeList extends Component {
     }
 
     state = {
-        jokes: []
+        jokes: JSON.parse(window.localStorage.getItem('jokes') || '[]')
     }
 
     componentDidMount = async () => {
+        if (!this.state.jokes.length) this.getJokes()
+    }
+
+    getJokes = async () => {
         const jokes = []
         while (jokes.length < this.props.numJokesToGet) {
             const res = await axios.get('https://icanhazdadjoke.com/',
@@ -32,7 +36,10 @@ class JokeList extends Component {
 
         this.setState(state => ({
             jokes: [...state.jokes, ...jokes]
-        }))
+        }), () => window.localStorage.setItem(
+            'jokes',
+            JSON.stringify(this.state.jokes)
+        ))
     }
 
     handleVote = (id, delta) => {
@@ -56,7 +63,10 @@ class JokeList extends Component {
                     <h1 className='JokeList-title'>
                         <span>Dad</span> Jokes
                     </h1>
-                    <img alt='😂' src='https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg' />
+                    <img
+                        alt='😂'
+                        src='https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg'
+                    />
                     <button className='JokeList-getmore'>New Jokes</button>
                 </div>
 
