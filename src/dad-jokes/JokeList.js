@@ -110,7 +110,9 @@ class JokeList extends Component {
                 </div>
 
                 <div className='JokeList-jokes'>
-                    {this.state.jokes.map(joke => (
+                    {this.state.jokes.sort(
+                        (a, b) => b.votes - a.votes
+                    ).map(joke => (
                         <Joke
                             key={joke.id}
                             id={joke.id}
