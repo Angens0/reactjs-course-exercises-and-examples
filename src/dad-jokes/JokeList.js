@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './JokeList.css'
+import Joke from './Joke'
 
 class JokeList extends Component {
     static defaultProps = {
@@ -24,13 +25,28 @@ class JokeList extends Component {
 
             jokes.push({
                 id: res.data.id,
-                joke: res.data.joke
+                text: res.data.joke,
+                votes: 0
             })
         }
 
         this.setState(state => ({
             jokes: [...state.jokes, ...jokes]
         }))
+    }
+
+    handleVote = (id, delta) => {
+        this.setState(state => {
+            return {
+                jokes: state.jokes.map(joke => {
+                    if (joke.id === id) {
+                        return { ...joke, votes: joke.votes + delta }
+                    }
+
+                    return joke
+                })
+            }
+        })
     }
 
     render = () => {
@@ -47,7 +63,13 @@ class JokeList extends Component {
 
                 <div className='JokeList-jokes'>
                     {this.state.jokes.map(joke => (
-                        <div key={joke.id}>{joke.joke}</div>
+                        <Joke
+                            key={joke.id}
+                            id={joke.id}
+                            votes={joke.votes}
+                            text={joke.text}
+                            handleVote={this.handleVote}
+                        />
                     ))}
                 </div>
             </div>
