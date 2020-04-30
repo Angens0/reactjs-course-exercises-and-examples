@@ -13,35 +13,47 @@ class JokeList extends Component {
         loading: false
     }
 
+    seenJokes = new Set(this.state.jokes.map(joke => joke.id))
+
     componentDidMount = async () => {
         if (!this.state.jokes.length) this.getJokes()
     }
 
     getJokes = async () => {
-        const jokes = []
-        while (jokes.length < this.props.numJokesToGet) {
-            const res = await axios.get('https://icanhazdadjoke.com/',
-                {
-                    headers: {
-                        Accept: 'application/json'
+        try {
+            const jokes = []
+            while (jokes.length < this.props.numJokesToGet) {
+                const res = await axios.get('https://icanhazdadjoke.com/',
+                    {
+                        headers: {
+                            Accept: 'application/json'
+                        }
                     }
+                )
+
+                const newJoke = {
+                    id: res.data.id,
+                    text: res.data.joke,
+                    votes: 0
                 }
-            )
 
-            jokes.push({
-                id: res.data.id,
-                text: res.data.joke,
-                votes: 0
-            })
+                if (!this.seenJokes.has(newJoke.id)) {
+                    this.seenJokes.add(newJoke.id)
+                    jokes.push(newJoke)
+                }
+            }
+
+            this.setState(state => ({
+                jokes: [...state.jokes, ...jokes],
+                loading: false
+            }), () => window.localStorage.setItem(
+                'jokes',
+                JSON.stringify(this.state.jokes)
+            ))
+        } catch (error) {
+            alert(error)
+            this.setState({ loading: false })
         }
-
-        this.setState(state => ({
-            jokes: [...state.jokes, ...jokes],
-            loading: false
-        }), () => window.localStorage.setItem(
-            'jokes',
-            JSON.stringify(this.state.jokes)
-        ))
     }
 
     handleVote = (id, delta) => {
