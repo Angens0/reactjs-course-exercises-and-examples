@@ -26,8 +26,12 @@ function TodoApp() {
     }
 
     const toggleTodo = id => setTodos(todos.map(todo => {
-        return todo.id === id ? {...todo, completed: !todo.completed} : todo
+        return todo.id === id ? { ...todo, completed: !todo.completed } : todo
     }))
+
+    const editTodo = (id, task) => {
+        setTodos(todos.map(todo => todo.id === id ? { ...todo, task } : todo))
+    }
 
     const removeTodo = id => setTodos(todos.filter(todo => todo.id !== id))
 
@@ -52,6 +56,7 @@ function TodoApp() {
                     <TodoList
                         todos={todos}
                         toggleTodo={toggleTodo}
+                        editTodo={editTodo}
                         removeTodo={removeTodo}
                     />
                 </Grid>
