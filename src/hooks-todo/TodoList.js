@@ -5,6 +5,10 @@ import Todo from './Todo'
 import Divider from '@material-ui/core/Divider'
 
 function TodoList({ todos, toggleTodo, editTodo, removeTodo }) {
+    if (!todos.length) {
+        return null
+    }
+
     return (
         <Paper>
             <List>
