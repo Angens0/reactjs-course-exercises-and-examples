@@ -12,8 +12,12 @@ function EditTodoForm({ task, editTodo, id, toggleEditing }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={handleSubmit}
+            style={{ marginLeft: '1rem', width: '50%' }}
+        >
             <TextField
+                autoFocus
                 margin='normal'
                 fullWidth
                 value={value}

@@ -49,7 +49,7 @@ function Todo({ id, task, completed, toggleTodo, editTodo, removeTodo }) {
     )
 
     return (
-        <ListItem>
+        <ListItem style={{ height: '64px' }}>
             {isEditing ? renderEditing() : renderTodo()}
         </ListItem>
     )
