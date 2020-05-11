@@ -1,10 +1,16 @@
-import React from 'react'
-import TodoApp from './hooks-todo/TodoApp'
+import React, { Component } from 'react'
+import Navbar from './context-demo/Navbar'
+import Form from './context-demo/Form'
 
-function App() {
-    return (
-        <TodoApp />
-    )
+export class App extends Component {
+    render() {
+        return (
+            <>
+                <Navbar />
+                <Form />
+            </>
+        )
+    }
 }
 
 export default App
