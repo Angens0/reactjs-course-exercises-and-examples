@@ -7,10 +7,14 @@ export class ThemeProvider extends Component {
         isDarkMode: true
     }
 
+    toggleTheme = () => {
+        this.setState({ isDarkMode: !this.state.isDarkMode })
+    }
+
     render() {
         return (
             <ThemeContext.Provider
-                value={{ ...this.state, tastesLikeChicken: true }}
+                value={{ ...this.state, toggleTheme: this.toggleTheme }}
             >
                 {this.props.children}
             </ThemeContext.Provider>
