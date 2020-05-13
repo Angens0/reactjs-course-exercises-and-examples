@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Grid from '@material-ui/core/Grid'
 import TodoList from './TodoList'
 import TodoForm from './TodoForm'
+import { TodosProvider } from './contexts/todos.context'
 
 function TodoApp() {
     const initialTodos = JSON.parse(window.localStorage.getItem('todos')) || []
@@ -38,15 +39,17 @@ function TodoApp() {
                     <Typography color='inherit'>TODOS WITH HOOKS</Typography>
                 </Toolbar>
             </AppBar>
-            <Grid container justify='center' style={{marginTop: '1rem'}}>
+            <Grid container justify='center' style={{ marginTop: '1rem' }}>
                 <Grid item xs={11} md={8} lg={4}>
-                    <TodoForm addTodo={addTodo} />
-                    <TodoList
-                        todos={todos}
-                        toggleTodo={toggleTodo}
-                        editTodo={editTodo}
-                        removeTodo={removeTodo}
-                    />
+                    <TodosProvider>
+                        <TodoForm addTodo={addTodo} />
+                        <TodoList
+                            todos={todos}
+                            toggleTodo={toggleTodo}
+                            editTodo={editTodo}
+                            removeTodo={removeTodo}
+                        />
+                    </TodosProvider>
                 </Grid>
             </Grid>
         </Paper>
