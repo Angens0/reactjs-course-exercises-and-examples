@@ -11,15 +11,15 @@ import EditTodoForm from './EditTodoForm'
 import { TodosContext } from './contexts/todos.context'
 
 function Todo({ id, task, completed }) {
-    const { toggleTodo, removeTodo } = useContext(TodosContext)
+    const { dispatch } = useContext(TodosContext)
     const [isEditing, toggleEditing] = useToggleState()
 
     const remove = () => {
-        removeTodo(id)
+        dispatch({ type: 'REMOVE', id })
     }
 
     const toggleCompletion = () => {
-        toggleTodo(id)
+        dispatch({ type: 'TOGGLE', id })
     }
 
     const renderTodo = () => (
