@@ -6,9 +6,10 @@ const useLocalStorageState = (key, defaultValue) => {
 
         try {
             value = JSON.parse(
-                window.localStorage(key) || String(defaultValue)
+                window.localStorage.getItem(key) || String(defaultValue)
             )
         } catch (error) {
+            console.log(error)
             value = defaultValue
         }
 
@@ -16,7 +17,7 @@ const useLocalStorageState = (key, defaultValue) => {
     })
 
     useEffect(() => {
-        window.localStorage.setItem(key, state)
+        window.localStorage.setItem(key, JSON.stringify(state))
     }, [state, key])
 
     return [state, setState]
